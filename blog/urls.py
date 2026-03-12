@@ -5,5 +5,8 @@ urlpatterns = [
     path('welcome/', views.welcome, name='welcome'),
     path('eco/<msg>', views.eco, name='eco' ),
     path('info', views.info, name='info'),
+    path('home/', views.home, name='home'),
+    path('contato/<numero>', views.contato, name='contato')
+    
 ]
 # 

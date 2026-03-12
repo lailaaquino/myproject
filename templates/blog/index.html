@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>App</title>
+</head>
+<body>
+    <header>
+        <h1>Nome: {{nome}}</h1>
+        <p> Data:{{data}} </>
+        <p>
+            {% if is_logged_in == True %}
+                Bem vindo de volta!
+            {% else %}
+                Faça login para continuar.
+            {% endif %}
+        </p>
+        <p>
+            {% if is_role == "admin" %}
+                Você é um administrador.
+            {% else %}
+                 Você não é um administrador.
+            {% endif %}
+        </p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Nome: </th>
+                    <th>Preço: </th>
+                </tr>
+            </thead>
+            {% for fruta in dicionario%}
+            <tbody>
+                <tr> 
+                    <td>{{fruta.nome}}</td>
+                    <td> {{fruta.preço}}</td>
+                    {% endfor %}
+                </tr>
+            </tbody>
+        </table>
+        <p>
+            <a href="{% url 'home' %}">Página Inicial</a>
+            <a href="{% url 'contato' numero %}">Contato</a>
+        </p>
+    </header>
+</body>
+</html>
