@@ -16,9 +16,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from edu import views
 
 urlpatterns = [
     path('admin/', admin.site.urls), #rota e view
     path('polls/', include('polls.urls')),
     path('blog/', include('blog.urls')),
+    path('edu/', include('edu.urls')), #já vem todos de edu.urls
 ]
