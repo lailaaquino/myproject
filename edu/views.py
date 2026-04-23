@@ -5,6 +5,7 @@ from .models import Editora
 from .forms import EditoraForm
 from .models import Autor
 from .forms import AutorForm
+from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 # Create your views here.
 
 def livro_create(request):
@@ -75,7 +76,18 @@ def edit_autores(request, id):
     return render(request, 'edu/cadastro_autor.html', {'form': form})
 
 def list_livros(request):
-    livros = Livro.objects.all()
+    from .models import Livro
+    from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+    livros = Livro.objects.all().order_by('titulo')
+    page = request.GET.get('page', 1)
+    paginator = Paginator(livros, 5)  
+    try:
+        livros = paginator.page(page)
+    except PageNotAnInteger:
+        livros = paginator.page(1)
+    except EmptyPage:
+        livros = paginator.page(paginator.num_pages)
+        
     return render(request, 'edu/livro_list.html', {'livros': livros})
 
 def list_editoras(request):
