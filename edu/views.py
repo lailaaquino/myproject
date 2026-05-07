@@ -1,12 +1,53 @@
+def home(request):
+    return render(request, 'edu/home.html')
 from django.shortcuts import redirect, render
 from .models import Livro
-from .forms import LivroForm
+from .forms import LivroForm, SignUpForm, SignInForm
 from .models import Editora
 from .forms import EditoraForm
 from .models import Autor
 from .forms import AutorForm
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import login, logout
+from django.http import HttpResponseNotAllowed
+from django.utils.http import url_has_allowed_host_and_scheme
+
+
+def signup_view(request):
+    if request.method == 'POST':
+        form = SignUpForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            return redirect('edu:home')
+    else:
+        form = SignUpForm()
+    return render(request, 'edu/registro_usuario.html', {'form': form})
+
+def signin_view(request):
+    if request.method == 'POST':
+        form = SignInForm(request, data=request.POST)
+        if form.is_valid():
+            user = form.get_user()
+            login(request, user)
+            next_url = request.POST.get('next', '') or request.GET.get('next')
+            if next_url and url_has_allowed_host_and_scheme(next_url, allowed_hosts={request.get_host()}):
+                return redirect(next_url)
+            return redirect('edu:home')
+    else:
+        form = SignInForm()
+    return render(request, 'edu/login_usuario.html', {'form': form})
+
+def logout_view(request):
+    if request.method != 'POST':
+        return HttpResponseNotAllowed(['POST'])
+    logout(request)
+    return redirect('signin')
+
 # Create your views here.
+
+@login_required
 
 def livro_create(request):
     if request.method == 'POST':
@@ -39,6 +80,7 @@ def autor_create(request):
     return render(request, 'edu/cadastro_autor.html', {'form': form})
 
 #agr para atualizar dados 
+@login_required
 def edit_livros(request, id):
     from .models import Livro
     livro = Livro.objects.get(id=id)

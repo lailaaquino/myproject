@@ -1,0 +1,21 @@
+<h1>Entrar</h1>
+<form method="post" novalidate>
+    {% csrf_token %}
+    <input type="hidden" name="next" value="{{ next|default:'' }}">
+    {% if form.non_field_errors %}
+        <div class="error">{{ form.non_field_errors }}</div>
+    {% endif %}
+    {% for field in form %}
+        <div class="form-row">
+            {{ field.label_tag }}
+            {{ field }}
+            {% if field.errors %}
+                <div class="error">{{ field.errors }}</div>
+            {% endif %}
+        </div>
+    {% endfor %}
+    <div class="form-actions">
+        <button type="submit" class="btn">Entrar</button>
+    </div>
+</form>
+<p>Não tem conta? <a href="{% url 'edu:signup' %}">Cadastre-se</a>.</p>
