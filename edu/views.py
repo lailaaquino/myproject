@@ -12,6 +12,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, logout
 from django.http import HttpResponseNotAllowed
 from django.utils.http import url_has_allowed_host_and_scheme
+from django.contrib.auth.decorators import permission_required
 
 
 def signup_view(request):
@@ -49,12 +50,13 @@ def logout_view(request):
 
 @login_required
 
+@permission_required('edu.add_livro')
 def livro_create(request):
     if request.method == 'POST':
         form = LivroForm(request.POST)
         if form.is_valid(): # se está de acordo com definição em models 
             form.save()
-            return redirect('list_livros')
+            return redirect('edu:list_livros')
     else:
         form = LivroForm()
     return render(request, 'edu/cadastro_livro.html', {'form': form})
@@ -80,6 +82,7 @@ def autor_create(request):
     return render(request, 'edu/cadastro_autor.html', {'form': form})
 
 #agr para atualizar dados 
+@permission_required('edu.change_livro')
 @login_required
 def edit_livros(request, id):
     from .models import Livro
@@ -88,7 +91,7 @@ def edit_livros(request, id):
         form = LivroForm(request.POST, instance=livro)
         if form.is_valid():
             form.save()
-            return redirect('list_livros')
+            return redirect('edu:list_livros')
     else:
         form = LivroForm(instance=livro)
     return render(request, 'edu/cadastro_livro.html', {'form': form})

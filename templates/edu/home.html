@@ -1,29 +1,10 @@
-{% extends "base.html" %}
-
-{% block title %}Home{% endblock %} 
-
+{% extends 'base.html' %}
 {% block content %}
-    <h1>Home</h1>
-    <p>Seja Bem Vindo</p>
+<h2>Seja Bem Vindo</h2>
+<p>Para acessar a <strong>lista de livros</strong>, clique aqui: <a href="{% url 'edu:list_livros' %}">Lista de Livros</a></p>
+<br>
+Footer do Blog home.
 {% endblock %}
-
-{% if request.user.is_authenticated %}
-    <nav style="display:inline-block;margin-right:12px;">
-        <a href="{%url 'edu:home' %}">Home</a>
-        <a href="{%url 'list_livros' %}">Livros</a>
-        <a href="{%url 'list_editoras' %}">Editoras</a>
-    </nav>
-    <span style="margin-right:8px;">Olá, {{ request.user.username }}</span>
-
-    <form method="post" action="{% url 'edu:logout' %}" style="display:inline;">
-        {% csrf_token %}
-        <button type="submit">Logout</button>
-    </form>
-
-{% else %}
-    <a href="{% url 'edu:signin' %}">Entrar</a> |
-    <a href="{% url 'edu:signup' %}">Registrar</a>
-{% endif %}
 
 {% block footer %}
     Footer do Blog
