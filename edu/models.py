@@ -16,4 +16,3 @@ class Livro (models.Model):
 class Editora(models.Model):
     nome = models.CharField(max_length=10)
     
-    

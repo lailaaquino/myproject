@@ -1,6 +1,6 @@
 
 app_name = 'edu'
-from django.urls import path
+from django.urls import include, path
 from . import views 
 
 urlpatterns = [
@@ -20,4 +20,6 @@ urlpatterns = [
     path('signup/', views.signup_view, name='signup'),
     path('signin/', views.signin_view, name='signin'),
     path('logout/', views.logout_view, name='logout'),
+    
+    path('api/', include('edu.api_urls')),
     ]
