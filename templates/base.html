@@ -1,24 +1,35 @@
+{% load i18n %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ request.LANGUAGE_CODE }}">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Blog para notícias{% endblock %}</title>
+    <title>{% block title %}{% translate "Blog for news" %}{% endblock %}</title>
 </head>
 <body>
     <main>
+        <div style="float: left; margin: 10px;">
+            <form action="{% url 'set_language' %}" method="post">
+                {% csrf_token %}
+                <input type="hidden" name="next" value="{{ request.get_full_path }}">
+                
+                <select name="language" onchange="this.form.submit()">
+                    <option value="pt" {% if request.LANGUAGE_CODE == 'pt' %}selected{% endif %}>Português</option>
+                    <option value="en" {% if request.LANGUAGE_CODE == 'en' %}selected{% endif %}>English</option>
+                </select>
+            </form>
+        </div>
+
         {% if user.is_authenticated %}
         <form action="{% url 'edu:logout' %}" method="post" style="display:inline; float:right; margin:10px;">
             {% csrf_token %}
-            <button type="submit" class="btn btn-link">Sair</button>
+            <button type="submit" class="btn btn-link">{% translate "Sair" %}</button>
         </form>
         {% endif %}
+
+        <div style="clear: both;"></div>
+
         {% block content %}
         {% endblock %}
     </main>
 </body>
-<footer>
-    {% block footer %}
-    {% endblock %}
-</footer>
 </html>

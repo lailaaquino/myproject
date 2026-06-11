@@ -1,4 +1,3 @@
-
 app_name = 'edu'
 from django.urls import include, path
 from . import views 
@@ -22,4 +21,4 @@ urlpatterns = [
     path('logout/', views.logout_view, name='logout'),
     
     path('api/', include('edu.api_urls')),
-    ]
+]

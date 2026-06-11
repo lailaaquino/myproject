@@ -23,4 +23,5 @@ urlpatterns = [
     path('polls/', include('polls.urls')),
     path('blog/', include('blog.urls')),
     path('edu/', include('edu.urls')), #já vem todos de edu.urls
+    path('i18n/', include('django.conf.urls.i18n')),
 ]

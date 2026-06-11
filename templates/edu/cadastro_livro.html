@@ -1,6 +1,12 @@
 {% extends 'base.html' %}
-{% block content %}
-<h2>{% if form.instance.pk %}Editar Livro{% else %}Novo Livro{% endif %}</h2>
+{% load i18n %} {% block content %}
+<h2>
+    {% if form.instance.pk %}
+        {% translate "Editar Livro" %}
+    {% else %}
+        {% translate "Novo Livro" %}
+    {% endif %}
+</h2>
 <form method="post" class="row g-3">
         {% csrf_token %}
         {% for field in form %}

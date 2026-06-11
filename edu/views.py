@@ -13,7 +13,7 @@ from django.contrib.auth import login, logout
 from django.http import HttpResponseNotAllowed
 from django.utils.http import url_has_allowed_host_and_scheme
 from django.contrib.auth.decorators import permission_required
-
+from django.utils.translation import gettext as _
 
 def signup_view(request):
     if request.method == 'POST':
@@ -59,7 +59,7 @@ def livro_create(request):
             return redirect('edu:list_livros')
     else:
         form = LivroForm()
-    return render(request, 'edu/cadastro_livro.html', {'form': form})
+    return render(request, 'edu/cadastro_livro.html', {'form': form, 'titulo_acao': _("Cadastrar Livro") })
 
 def editora_create(request):
     if request.method == 'POST':
@@ -69,7 +69,7 @@ def editora_create(request):
             return redirect('list_editoras')
     else:
         form = EditoraForm()
-    return render(request, 'edu/cadastro_editora.html', {'form': form})
+    return render(request, 'edu/cadastro_editora.html', {'form': form, 'titulo_acao': _("Editar Livro")})
 
 def autor_create(request):
     if request.method == 'POST':

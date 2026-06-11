@@ -4,10 +4,12 @@ from .models import Editora
 from .models import Autor
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth.models import User
+from django.utils.translation import gettext_lazy as _
 
 class SignUpForm(UserCreationForm):
     email = forms.EmailField(
         required=True,
+        label=_("E-mail"),
         widget=forms.EmailInput(attrs={'placeholder': 'email@exemplo.com', 'class': 'form-control'})
     )
 
@@ -23,9 +25,11 @@ class SignUpForm(UserCreationForm):
 
 class SignInForm(AuthenticationForm):
     username = forms.CharField(
+        label=_("Nome de usuário"),
         widget=forms.TextInput(attrs={'placeholder': 'Username', 'class': 'input-text'})
     )
     password = forms.CharField(
+        label=_("Senha"),
         widget=forms.PasswordInput(attrs={'placeholder': 'Senha', 'class': 'input-text'})
     )
 
